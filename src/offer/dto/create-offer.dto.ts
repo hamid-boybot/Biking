@@ -2,12 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumber, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export enum AgencyType {
-  physic = 'physic',
-  virtual = 'virtual',
+export enum OfferType {
+  daily = 'daily',
+  weekly = 'weekly',
+  week_end = 'week_end',
+  monthly = 'monthly',
+  perso = 'perso',
 }
 
-export class CreateAgencyDTO {
+export class CreateOfferDTO {
   @ApiProperty({ example: 'virtual-Immo' })
   @IsString()
   name: string;
@@ -31,10 +34,10 @@ export class CreateAgencyDTO {
   description: string;
 
   @ApiProperty({
-    enum: ['physic', 'virtual'],
-    example: 'physic',
+    enum: ['daily', 'weekly', 'week_end', 'monthly', 'perso'],
+    example: 'weekly',
   })
-  agency_type: AgencyType;
+  offer_type: OfferType;
 
   @ApiProperty({ example: '9h00-20h00' })
   @IsString()

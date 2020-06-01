@@ -2,12 +2,15 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNumber, Min, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export enum AgencyType {
-  physic = 'physic',
-  virtual = 'virtual',
+export enum OfferType {
+  daily = 'daily',
+  weekly = 'weekly',
+  week_end = 'week_end',
+  monthly = 'monthly',
+  perso = 'perso',
 }
 
-export class FilterAgencyDTO {
+export class FilterOfferDTO {
   @ApiPropertyOptional({
     example: '7 boulevard kennedy 75016',
   })
@@ -26,11 +29,11 @@ export class FilterAgencyDTO {
   hour: string;
 
   @ApiPropertyOptional({
-    enum: ['physic', 'virtual'],
-    example: 'virtual',
+    enum: ['daily', 'weekly', 'week_end', 'monthly', 'perso'],
+    example: 'weekly',
   })
   @IsOptional()
-  agency_type: AgencyType;
+  offer_type: OfferType;
 
   @ApiPropertyOptional({ example: 10 })
   @Transform(take => parseInt(take))
