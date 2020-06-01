@@ -11,7 +11,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
-import { Property } from '../property/property.entity';
+import { Bike } from '../bike/bike.entity';
 //import { Mandat } from '../mandat/mandat.entity';
 
 export enum AgencyType {

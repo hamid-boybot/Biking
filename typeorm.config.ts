@@ -2,8 +2,8 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as config from 'config';
 import { User } from './src/user/user.entity';
 import { Address } from './src/address/address.entity';
-import { Property } from './src/property/property.entity';
-import { Agency } from './src/agency/agency.entity';
+import { Bike } from './src/bike/bike.entity';
+import { Offer } from './src/offer/offer.entity';
 // import { Order } from './src/order/order.entity';
 // import { OrderDetail } from './src/order/orderDetail.entity';
 
@@ -16,7 +16,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: dbConfig.username,
   password: dbConfig.password,
   database: dbConfig.database,
-  entities: [User, Address, Property, Agency], // mandat
+  entities: [User, Address, Bike, Offer], // mandat
   synchronize: dbConfig.synchronize,
   logging: false,
 };

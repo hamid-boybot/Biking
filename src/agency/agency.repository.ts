@@ -1,13 +1,13 @@
 import { Repository, EntityRepository } from 'typeorm';
-import { Agency } from './agency.entity';
-import { CreateAgencyDTO } from './dto/create-agency.dto';
-import { FilterAgencyDTO } from './dto/filter-agency.dto';
+import { Offer } from './offer.entity';
+import { CreateOfferDTO } from './dto/create-offer.dto';
+import { FilterOfferDTO } from './dto/filter-offer.dto';
 
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 
-@EntityRepository(Agency)
+@EntityRepository(Offer)
 export class AgencyRepository extends Repository<Agency> {
-  async findAgency(filterAgencyDTO: FilterAgencyDTO, user) {
+  async findOffer(filterAgencyDTO: FilterOfferDTO, user) {
     let { address, search, agency_type, hour, take, skip } = filterAgencyDTO;
     take = take || 10;
     skip = skip || 0;
