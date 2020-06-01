@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PropertyRepository } from '../property/property.repository';
+import { BikeRepository } from '../bike/bike.repository';
 import { UserRepository } from './user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRepository, PropertyRepository])],
+  imports: [TypeOrmModule.forFeature([UserRepository, BikeRepository])],
   providers: [],
   controllers: [],
 })

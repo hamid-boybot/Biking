@@ -9,39 +9,41 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export enum PropertyType {
-  apartment = 'apartment',
-  parking = 'parking',
-  garage = 'garage',
-  warehouse = 'warehouse',
-  cellar = 'cellar',
+export enum BikeType {
+  rapide = 'rapide',
+  efficace = 'efficace',
+  pascher = 'pascher',
 }
 
-export enum ApartmentType {
-  t1 = 'T1',
-  t2 = 'T2',
-  t3 = 'T3',
-  t4 = 'T4',
-  t5 = 'T5',
+export enum BikeState {
+  bon = 'bon',
+  neuf = 'neuf',
+  occase = 'occase',
 }
 
 export enum SortType {
-  estimated_price = 'estimated_price',
-  area = 'area',
+  price = 'price',
+  state = 'state',
   city = 'city',
 }
 
 export class FilterPropertyDTO {
-  @ApiPropertyOptional({ example: 'La templerie' })
+  @ApiPropertyOptional({ example: '3oud ri7' })
   @IsString()
   @IsOptional()
   search: string;
 
   @ApiPropertyOptional({
-    example: 'apartment',
-    enum: Object.keys(PropertyType),
+    example: 'rapide',
+    enum: Object.keys(BikeType),
   })
-  propertyt_type: PropertyType;
+  propertyt_type: BikeType;
+
+  @ApiPropertyOptional({
+    example: 'bon',
+    enum: Object.keys(BikeState),
+  })
+  propertyt_type: BikeType;
 
   @ApiPropertyOptional({ example: 10 })
   @Transform(take => parseInt(take))
@@ -56,20 +58,14 @@ export class FilterPropertyDTO {
   skip: number;
 
   @ApiPropertyOptional({ example: 100000 })
-  @Transform(estimated_price => parseInt(estimated_price))
+  @Transform(price => parseInt(price))
   @IsNumber()
   @IsOptional()
   estimated_price: number;
 
-  @ApiPropertyOptional({ example: 25 })
-  @Transform(area => parseInt(area))
-  @IsNumber()
-  @IsOptional()
-  area: number;
-
   @ApiPropertyOptional({
-    enum: ['apartment', 'parking', 'garage', 'warehouse', 'cellar'],
-    example: 'apartment',
+    enum: ['rapide', 'efficace', 'pascher'],
+    example: 'pascher',
   })
   @IsOptional()
   property_type: PropertyType;
@@ -80,7 +76,7 @@ export class FilterPropertyDTO {
   city: string;
 
   @ApiPropertyOptional({
-    example: 'estimated_price',
+    example: 'price',
     enum: Object.keys(SortType),
   })
   @IsOptional()

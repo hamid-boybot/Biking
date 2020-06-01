@@ -13,37 +13,28 @@ const address = {
   zip_code: 93300,
 };
 
-const agencies = [
-  {
-    agency_name: 'ImmoTeps',
-    id_agency: 'b7e2a2cb-ee25-4381-a2c5-d03634a7e7ca',
-    agency_type: 'physic',
-    agency_adress: '16eme, 93300',
-  },
-  {
-    name: 'ImmoTeps15',
-    id_agency: '8270a616-6ba1-42f6-a3bb-fb86314de3f3',
-    agency_type: 'physic',
-    adress: '15eme, 93300',
-  },
-];
-export enum PropertyType {
-  apartment = 'apartment',
-  parking = 'parking',
-  garage = 'garage',
-  warehouse = 'warehouse',
-  cellar = 'cellar',
+// const agencies = [
+//   {
+//     agency_name: 'ImmoTeps',
+//     id_agency: 'b7e2a2cb-ee25-4381-a2c5-d03634a7e7ca',
+//     agency_type: 'physic',
+//     agency_adress: '16eme, 93300',
+//   },
+//   {
+//     name: 'ImmoTeps15',
+//     id_agency: '8270a616-6ba1-42f6-a3bb-fb86314de3f3',
+//     agency_type: 'physic',
+//     adress: '15eme, 93300',
+//   },
+// ];
+export enum BikeType {
+  rapide = 'rapide',
+  efficace = 'efficace',
+  pascher = 'pascher',
 }
 
-export enum ApartmentType {
-  t1 = 'T1',
-  t2 = 'T2',
-  t3 = 'T3',
-  t4 = 'T4',
-  t5 = 'T5',
-}
 export class CreatePropertyDTO {
-  @ApiProperty({ example: 'La templerie' })
+  @ApiProperty({ example: '3oud ri7' })
   @IsString()
   name: string;
 
@@ -65,28 +56,22 @@ export class CreatePropertyDTO {
   description: string;
 
   @ApiProperty({
-    enum: ['apartment', 'parking', 'garage', 'warehouse', 'cellar'],
+    enum: ['rapide', 'efficace', 'pascher'],
     example: 'apartment',
   })
-  property_type: PropertyType;
-
-  @ApiProperty({
-    enum: ['T1', 'T2', 'T3', 'T4'],
-    example: 'T2',
-  })
-  apartment_type: ApartmentType;
+  bike_type: BikeType;
 
   @ApiProperty({ example: 100000 })
-  @Transform(estimated_price => parseInt(estimated_price))
+  @Transform(price => parseInt(price))
   @IsNumber()
   @Min(0)
   estimated_price: number;
 
-  @ApiProperty({ example: 100 })
-  @Transform(area => parseInt(area))
-  @IsNumber()
-  @Min(0)
-  area: number;
+  // @ApiProperty({ example: 100 })
+  // @Transform(area => parseInt(area))
+  // @IsNumber()
+  // @Min(0)
+  // area: number;
 
   @ApiProperty({ example: 10 })
   @Transform(age => parseInt(age))
@@ -111,15 +96,15 @@ export class CreatePropertyDTO {
   // @IsString()
   // id_address: string;
 
-  @ApiProperty({
-    example: agencies,
-  })
-  agencies: [
-    {
-      agency_name: string;
-      id_agency: string;
-      agency_type: string;
-      agency_adress: string;
-    }
-  ];
+  // @ApiProperty({
+  //   example: agencies,
+  // })
+  // agencies: [
+  //   {
+  //     agency_name: string;
+  //     id_agency: string;
+  //     agency_type: string;
+  //     agency_adress: string;
+  //   }
+  // ];
 }
