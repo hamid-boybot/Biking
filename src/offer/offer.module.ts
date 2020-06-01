@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { OfferService } from './agency.service';
-import { OfferController } from './agency.controller';
+import { OfferService } from './offer.service';
+import { OfferController } from './offer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BikeRepository } from '../property/property.repository';
-import { OfferRepository } from '../agency/agency.repository';
+import { BikeRepository } from '../bike/bike.repository';
+import { OfferRepository } from '../offer/offer.repository';
 import { UserRepository } from '../user/user.repository';
 
 @Module({
@@ -13,4 +13,4 @@ import { UserRepository } from '../user/user.repository';
   providers: [OfferService],
   controllers: [OfferController],
 })
-export class AgencyModule {}
+export class OfferModule {}

@@ -27,7 +27,7 @@ export enum SortType {
   city = 'city',
 }
 
-export class FilterPropertyDTO {
+export class FilterBikeDTO {
   @ApiPropertyOptional({ example: '3oud ri7' })
   @IsString()
   @IsOptional()
@@ -43,7 +43,7 @@ export class FilterPropertyDTO {
     example: 'bon',
     enum: Object.keys(BikeState),
   })
-  propertyt_type: BikeType;
+  bike_state: BikeState;
 
   @ApiPropertyOptional({ example: 10 })
   @Transform(take => parseInt(take))
@@ -61,14 +61,14 @@ export class FilterPropertyDTO {
   @Transform(price => parseInt(price))
   @IsNumber()
   @IsOptional()
-  estimated_price: number;
+  price: number;
 
   @ApiPropertyOptional({
     enum: ['rapide', 'efficace', 'pascher'],
     example: 'pascher',
   })
   @IsOptional()
-  property_type: PropertyType;
+  bike_type: BikeType;
 
   @ApiPropertyOptional({ example: '20eme arrondissement Dto' })
   @IsString()

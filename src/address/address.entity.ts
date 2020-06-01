@@ -8,7 +8,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import { User } from '../user/user.entity';
-import { Property } from '../property/property.entity';
+import { Offer } from '../offer/offer.entity';
 @Entity()
 export class Address extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -38,8 +38,8 @@ export class Address extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @OneToOne(() => Property, property => property.address)
-  property: Property;
+  @OneToOne(() => Offer, offer => offer.address)
+  offer: Offer;
 
   @ManyToOne(type => User, user => user.addresses)
   user: User;

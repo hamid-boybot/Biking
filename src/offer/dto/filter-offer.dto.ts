@@ -26,7 +26,7 @@ export class FilterOfferDTO {
   @ApiPropertyOptional({ example: '9h-20h' })
   @IsOptional()
   @IsString()
-  hour: string;
+  hour_plage: string;
 
   @ApiPropertyOptional({
     enum: ['daily', 'weekly', 'week_end', 'monthly', 'perso'],

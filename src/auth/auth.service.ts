@@ -1,4 +1,4 @@
-import { PropertyRepository } from '../property/property.repository';
+import { BikeRepository } from '../bike/bike.repository';
 import {
   UserInformationDTO,
   ProfileType,
@@ -31,7 +31,7 @@ export class AuthService {
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
     private mailService: MailService,
-    private readonly propertyRepository: PropertyRepository,
+    private readonly bikeRepository: BikeRepository,
   ) {}
 
   async signUp(authCredentialsDTO: AuthCredentialsDTO): Promise<User> {
@@ -95,7 +95,7 @@ export class AuthService {
         .groupBy('user.id_user')
         .getRawOne();
 
-      const findProperty: any = await this.propertyRepository
+      const findProperty: any = await this.bikeRepository
         .createQueryBuilder('property')
         .innerJoin('property.user', 'user', 'user.id_user = :id', {
           id: profile_id,

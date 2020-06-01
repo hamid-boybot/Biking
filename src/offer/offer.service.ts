@@ -7,6 +7,7 @@ import { OfferRepository } from './offer.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOfferDTO } from './dto/create-offer.dto';
 import { UserRepository } from '../user/user.repository';
+import { BikeRepository } from '../bike/bike.repository';
 import { Offer } from './offer.entity';
 import { FilterOfferDTO } from './dto/filter-offer.dto';
 
@@ -17,6 +18,8 @@ export class OfferService {
     private readonly offerRepository: OfferRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
+    @InjectRepository(BikeRepository)
+    private readonly bikeRepository: BikeRepository,
   ) {}
 
   async createOffer(createOfferDTO: CreateOfferDTO, user) {
@@ -81,7 +84,7 @@ export class OfferService {
       throw new NotFoundException("Nous n'avons pas trouvé cette biciclette");
     }
 
-    const offers = await this.orderRepository.find({ bike: bike });
+    const offers = await this.offerRepository.find({ bike: bike });
 
     return offers;
   }

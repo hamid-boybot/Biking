@@ -33,7 +33,7 @@ export enum BikeType {
   pascher = 'pascher',
 }
 
-export class CreatePropertyDTO {
+export class CreateBikeDTO {
   @ApiProperty({ example: '3oud ri7' })
   @IsString()
   name: string;
@@ -65,7 +65,7 @@ export class CreatePropertyDTO {
   @Transform(price => parseInt(price))
   @IsNumber()
   @Min(0)
-  estimated_price: number;
+  price: number;
 
   // @ApiProperty({ example: 100 })
   // @Transform(area => parseInt(area))

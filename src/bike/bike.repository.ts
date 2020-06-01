@@ -35,12 +35,8 @@ export class BikeRepository extends Repository<Bike> {
       );
     }
 
-    if (sort === SortType.estimated_price) {
-      query.orderBy({ 'bike.estimated_price': 'ASC' });
-    }
-
-    if (sort === SortType.area) {
-      query.orderBy({ 'bike.area': 'ASC' });
+    if (sort === SortType.price) {
+      query.orderBy({ 'bike.price': 'ASC' });
     }
 
     if (sort === SortType.city) {

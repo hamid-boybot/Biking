@@ -16,7 +16,7 @@ import { Bike } from './bike.entity';
 import {
   ApiTags,
   ApiBearerAuth,
-  ApiBike,
+  ApiProperty,
   ApiParam,
   ApiNotFoundResponse,
   ApiOkResponse,

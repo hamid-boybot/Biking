@@ -25,12 +25,6 @@ export class CreateOfferDTO {
     example: 'description',
   })
   @IsString()
-  picture: string;
-
-  @ApiProperty({
-    example: 'description',
-  })
-  @IsString()
   description: string;
 
   @ApiProperty({
@@ -41,5 +35,5 @@ export class CreateOfferDTO {
 
   @ApiProperty({ example: '9h00-20h00' })
   @IsString()
-  hour: string;
+  hour_plage: string;
 }

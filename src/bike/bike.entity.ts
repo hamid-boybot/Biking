@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Offer } from '../offer/offer.entity';
 
 export enum BikeType {
   rapide = 'rapide',
@@ -40,4 +41,6 @@ export class Bike extends BaseEntity {
 
   @ManyToOne(() => User, user => user.bikes)
   user: User;
+  @ManyToOne(() => Offer, offers => offers.bike)
+  offers: User;
 }
