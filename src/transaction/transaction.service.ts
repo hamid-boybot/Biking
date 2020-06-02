@@ -3,7 +3,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { OrderRepository } from './order.repository';
+
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository, EntityRepository } from 'typeorm';
@@ -16,22 +16,19 @@ import { FilterTransactionDTO } from './dto/filter-transaction.dto';
 import { OfferRepository } from '../offer/offer.repository';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '../user/user.repository';
-import { BikeRepository } from '../bike/bike.repository';
 
 @Injectable()
 export class TransactionService {
   constructor(
     @InjectRepository(TransactionRepository)
     private readonly transactionRepository: TransactionRepository,
-    @InjectRepository(BikeRepository)
-    private readonly bikeRepository: BikeRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
     @InjectRepository(OfferRepository)
     private readonly offerRepository: OfferRepository,
   ) {}
 
-  async getTransaction(id_offer, user) {
+  async getTransactions(id_offer, user) {
     const offer = await this.offerRepository.findOne({ id_offer: id_offer });
     if (!offer) {
       throw new NotFoundException("Nous n'avons pas trouvé cette offre");
@@ -52,11 +49,12 @@ export class TransactionService {
   }
 
   async getTransaction(id, user): Promise<{}> {
-    return await this.transactionRepository.getOrder(id, user);
+    return await this.transactionRepository.getTransaction(id, user);
   }
 
   async createTransaction(
     createTransactionDTO: CreateTransactionDTO,
+    user,
   ): Promise<Transaction> {
     /*   const findUser = await this.userRepository.findOne({
       id_user: user.id_user,
@@ -67,14 +65,24 @@ export class TransactionService {
       );
     }
  */
+
+    const transaction = this.transactionRepository.create();
+
+    const findUser = await this.userRepository.findOne({
+      id_user: user.id_user,
+    });
+
+    if (findUser.user_checked === false) {
+      throw new UnauthorizedException(
+        'You need to verify your identity first then you could post bikes',
+      );
+    }
+
     const {
-      first_name,
-      last_name,
-      collect_date,
-      mail,
-      phone_number,
-      order_amount,
-      products,
+      name,
+      state,
+      hour_plage,
+      location_amount,
       id_offer,
     } = createTransactionDTO;
 
@@ -83,7 +91,6 @@ export class TransactionService {
       throw new NotFoundException("Nous n'avons pas trouvé cette offre");
     }
 
-    const transaction = this.transactionRepository.create();
     // const products = order.orderDetails;
 
     /*    const products = [
@@ -101,18 +108,12 @@ export class TransactionService {
       },
     ]; */
 
-    transaction.first_name = first_name;
-
-    transaction.last_name = last_name;
-
-    transaction.mail = mail;
-
-    transaction.phone_number = phone_number;
-
-    transaction.collect_date = collect_date;
-
-    transaction.birth_date = '9';
+    transaction.name = name;
+    transaction.location_amount = location_amount;
+    transaction.state = state;
+    transaction.hour_plage = hour_plage;
     transaction.offer = offer;
+    transaction.user = findUser;
 
     // let computed_amount = 0;
     // let savedOrder;
@@ -192,7 +193,7 @@ export class TransactionService {
   }
 
   async deleteTransaction(id, user): Promise<{}> {
-    return await this.transactionRepository.deletetransaction(id, user);
+    return await this.transactionRepository.deleteTransaction(id, user);
   }
 
   async updateTransaction(

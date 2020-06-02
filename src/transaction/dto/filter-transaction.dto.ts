@@ -13,11 +13,11 @@ import { Transform } from 'class-transformer';
 export enum TransactionSortType {
   name = 'name',
   location_amount = 'location_amount',
-  order_creationDate = 'order_creationDate',
+  creationDate = 'creationDate',
   offer_type = 'offer_type',
 }
 
-export class FilterOrderDTO {
+export class FilterTransactionDTO {
   @ApiPropertyOptional({ example: 'tomate' })
   @IsString()
   @IsOptional()
@@ -48,7 +48,7 @@ export class FilterOrderDTO {
   created_at: Date;
 
   @ApiPropertyOptional({
-    example: 'price',
+    example: 'location_amount',
     enum: Object.keys(TransactionSortType),
   })
   @IsOptional()

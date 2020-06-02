@@ -88,6 +88,7 @@ export class TransactionController {
   ): Promise<Transaction> {
     return await this.transactionService.createTransaction(
       createTransactionDto,
+      user,
     );
   }
 

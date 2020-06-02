@@ -1,5 +1,5 @@
 import { Repository, EntityRepository } from 'typeorm';
-import { Transaction } from './order.entity';
+import { Transaction } from './transaction.entity';
 import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import {
   FilterTransactionDTO,
@@ -9,14 +9,9 @@ import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Transaction)
 export class TransactionRepository extends Repository<Transaction> {
-  async findTransaction(
-    filterTransactionDTO: FilterTransactionDTO,
-    offer,
-    user,
-  ) {
+  async findTransaction(filterTransactionDTO: FilterTransactionDTO, user) {
     let {
       search,
-      offer_type,
       take,
       skip,
       transactionSortType,
@@ -26,11 +21,7 @@ export class TransactionRepository extends Repository<Transaction> {
     take = take || 10;
     skip = skip || 0;
 
-    const query = this.createQueryBuilder('order');
-
-    if (offer_type) {
-      query.andWhere('transaction.offer_type=:offer_type', { offer_type });
-    }
+    const query = this.createQueryBuilder('offer');
 
     if (location_amount) {
       query.andWhere('transaction.location_amount <= :location_amount', {
@@ -54,8 +45,8 @@ export class TransactionRepository extends Repository<Transaction> {
         'transaction.location_amount <= :location_amount': 'ASC',
       });
     }
-    if (transactionSortType === transactionSortType.transaction_creationDate) {
-      query.orderBy({ 'transaction.created_at <= : created_at': 'ASC' });
+    if (transactionSortType === TransactionSortType.creationDate) {
+      query.orderBy({ 'transaction.created_at <= : creationDate': 'ASC' });
     }
 
     const transactions: any = await query
@@ -117,7 +108,7 @@ export class TransactionRepository extends Repository<Transaction> {
     user,
     id,
   ): Promise<Transaction> {
-    const findOrder = await this.findOne({ id_order: id });
+    const findOrder = await this.findOne({ id_transaction: id });
 
     if (!findOrder) {
       throw new NotFoundException('Order not found');
