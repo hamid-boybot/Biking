@@ -4,6 +4,7 @@ import { User } from './src/user/user.entity';
 import { Address } from './src/address/address.entity';
 import { Bike } from './src/bike/bike.entity';
 import { Offer } from './src/offer/offer.entity';
+import { Transaction } from './src/transaction/transaction.entity';
 // import { Order } from './src/order/order.entity';
 // import { OrderDetail } from './src/order/orderDetail.entity';
 
@@ -16,7 +17,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: dbConfig.username,
   password: dbConfig.password,
   database: dbConfig.database,
-  entities: [User, Address, Bike, Offer], // mandat
+  entities: [User, Address, Bike, Offer, Transaction], // mandat
   synchronize: dbConfig.synchronize,
   logging: false,
 };
