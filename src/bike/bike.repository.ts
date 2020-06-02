@@ -1,5 +1,5 @@
 import { Repository, EntityRepository } from 'typeorm';
-import { Bike, BikeType } from './bike.entity';
+import { Bike } from './bike.entity';
 import { CreateBikeDTO } from './dto/create-bike.dto';
 import { FilterBikeDTO, SortType } from './dto/filter-bike.dto';
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
@@ -20,14 +20,14 @@ export class BikeRepository extends Repository<Bike> {
     }
 
     if (price) {
-      query.andWhere('bike.estimated_price <= :estimated_price', {
+      query.andWhere('bike.price <= :price', {
         price,
       });
     }
 
-    if (city) {
-      query.andWhere('bike.adress.city ILIKE : city', { city });
-    }
+    // if (city) {
+    //   query.andWhere('bike.adress.city ILIKE : city', { city });
+    // }
     if (search) {
       query.andWhere(
         'bike.name ILIKE :search OR bike.description ILIKE :search',
@@ -39,9 +39,9 @@ export class BikeRepository extends Repository<Bike> {
       query.orderBy({ 'bike.price': 'ASC' });
     }
 
-    if (sort === SortType.city) {
-      query.orderBy({ 'bike.address.city': 'ASC' });
-    }
+    // if (sort === SortType.city) {
+    //   query.orderBy({ 'bike.address.city': 'ASC' });
+    // }
 
     const bikes: any = await query
       .take(take)

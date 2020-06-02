@@ -6,6 +6,7 @@ import { typeOrmConfig } from 'typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { BikeModule } from './bike/bike.module';
 import { OfferModule } from './offer/offer.module';
+import { TransactionModule } from './transaction/transaction.module';
 //import { OrderModule } from './order/order.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { OfferModule } from './offer/offer.module';
     AuthModule,
     BikeModule,
     OfferModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

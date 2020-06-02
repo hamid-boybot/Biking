@@ -12,6 +12,8 @@ import * as bcrypt from 'bcryptjs';
 import { Bike } from '../bike/bike.entity';
 import { Address } from '../address/address.entity';
 import { Offer } from '../offer/offer.entity';
+import { Transaction } from '../transaction/transaction.entity';
+
 //import { Order } from '../order/order.entity';
 
 export enum UserRole {
@@ -93,6 +95,11 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Offer, offers => offers.user, { onDelete: 'CASCADE' })
   offers: Offer;
+
+  @OneToMany(() => Transaction, transactions => transactions.user, {
+    onDelete: 'CASCADE',
+  })
+  transactions: Transaction[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

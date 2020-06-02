@@ -16,13 +16,13 @@ export class Transaction extends BaseEntity {
   id_transaction: string;
 
   @Column()
-  description: string;
+  name: string;
 
   @Column()
   hour_plage: string;
 
   @Column()
-  calculated_amount: number;
+  location_amount: number;
 
   @Column()
   state: string;
@@ -30,7 +30,7 @@ export class Transaction extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => User, user => user.transcations)
+  @ManyToOne(() => User, user => user.transactions)
   user: User;
 
   @ManyToOne(() => Offer, offer => offer.transactions)

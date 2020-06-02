@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Bike } from '../bike/bike.entity';
+import { Transaction } from '../transaction/transaction.entity';
 //import { Mandat } from '../mandat/mandat.entity';
 
 export enum OfferType {
@@ -61,6 +62,6 @@ export class Offer extends BaseEntity {
   // @JoinColumn()
   // user: User;
 
-  // @OneToMany(() => mandat, mandat => mandat.agency)
-  // orders: Order[];
+  @OneToMany(() => Transaction, transactions => transactions.offer)
+  transactions: Transaction[];
 }

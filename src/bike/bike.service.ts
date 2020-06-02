@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBikeDTO } from './dto/create-bike.dto';
 import { Bike } from './bike.entity';
 import { FilterBikeDTO } from './dto/filter-bike.dto';
-import { AddressRepository } from '../address/address.repository';
+//import { AddressRepository } from '../address/address.repository';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '../user/user.repository';
 
@@ -18,8 +18,8 @@ export class BikeService {
   constructor(
     @InjectRepository(BikeRepository)
     private readonly eventRepository: BikeRepository,
-    @InjectRepository(AddressRepository)
-    private readonly addressRepository: AddressRepository,
+    // @InjectRepository(AddressRepository)
+    // private readonly addressRepository: AddressRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
   ) {}
