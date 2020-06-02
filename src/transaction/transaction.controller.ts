@@ -9,7 +9,7 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { CreateTransactionDTO } from './dto/create-transaction.dto';
+//import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import { TransactionService } from './transaction.service';
 import { Transaction } from './transaction.entity';
 import {
@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { getUser } from '../common/decorators/get-user.decorator';
+import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import { FilterTransactionDTO } from './dto/filter-transaction.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -64,7 +65,7 @@ export class TransactionController {
   }
 
   @Put('/:id')
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @ApiParam({ name: 'id' })
   async updateTransaction(
     @Body() createTransactionDto: CreateTransactionDTO,
@@ -81,7 +82,7 @@ export class TransactionController {
   @Post()
   //@Roles('admin')
   //@UseGuards(AuthGuard('jwt'), RolesGuard)
-  //@UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   async createTransaction(
     @Body() createTransactionDto: CreateTransactionDTO,
     @getUser() user,

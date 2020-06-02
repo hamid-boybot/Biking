@@ -32,22 +32,23 @@ export class OfferService {
         'You need to verify your identity first then you could post properties',
       );
     }
-
-    const findBike = await this.bikeRepository.findOne({
-      id_bike: user.id_bike,
-    });
-
-    if (!findBike) {
-      throw new NotFoundException("the Bike n'existe pas");
-    }
-
     const {
       name,
       description,
       address,
       offer_type,
       hour_plage,
+      price_per_day,
+      id_bike,
     } = createOfferDTO;
+
+    const findBike = await this.bikeRepository.findOne({
+      id_bike: id_bike,
+    });
+
+    if (!findBike) {
+      throw new NotFoundException("the Bike n'existe pas");
+    }
 
     const offer = this.offerRepository.create();
 
@@ -60,6 +61,8 @@ export class OfferService {
     offer.offer_type = offer_type;
 
     offer.hour_plage = hour_plage;
+
+    offer.price_per_day = price_per_day;
 
     offer.user = findUser;
 
@@ -93,6 +96,10 @@ export class OfferService {
   }
 
   async findOffer() {
-    return await this.offerRepository.find();
+    const offers = await this.offerRepository.find();
+    console.log('*************************************');
+    console.log(offers);
+    if (!offers) throw new NotFoundException("the ooffers n'existent pas");
+    return offers;
   }
 }

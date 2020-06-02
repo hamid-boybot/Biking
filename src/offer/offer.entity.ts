@@ -40,11 +40,11 @@ export class Offer extends BaseEntity {
   @Column({ nullable: true })
   rating: number;
 
-  @Column()
-  hour_plage: string;
-
   @Column({ type: 'enum', enum: OfferType })
   offer_type: string;
+
+  @Column()
+  hour_plage: string;
 
   @Column()
   price_per_day: number;

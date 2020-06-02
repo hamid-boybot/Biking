@@ -52,6 +52,19 @@ export class TransactionService {
     return await this.transactionRepository.getTransaction(id, user);
   }
 
+  async getTransactionOfferUser() {
+    const offer = await this.offerRepository.findOne();
+    if (!offer) {
+      throw new NotFoundException("Nous n'avons pas trouvé cette offre");
+    }
+
+    const offerOwner = offer.userRepository.findOne();
+    if (!offerOwner) {
+      throw new NotFoundException('owner of this offer is not here');
+    }
+    return offerOwner;
+  }
+
   async createTransaction(
     createTransactionDTO: CreateTransactionDTO,
     user,
@@ -197,14 +210,22 @@ export class TransactionService {
   }
 
   async updateTransaction(
-    createTransactionDTO: CreateTransactionDTO,
+    createBikeDTO: CreateBikeDTO,
     user,
     id,
-  ): Promise<Transaction> {
-    return await this.transactionRepository.updateOrder(
-      createTransactionDTO,
-      user,
-      id,
-    );
+  ): Promise<Bike> {
+    const offer = await this.offerRepository.findOne();
+    if (!offer) {
+      throw new NotFoundException("Nous n'avons pas trouvé cette offre");
+    }
+
+    const offerOwner = offer.userRepository.findOne();
+    if (!offerOwner) {
+      throw new NotFoundException('owner of this offer is not here');
+    }
+    if (offerOwner !== user) {
+      throw new NotFoundException('owner of this offer is not here');
+    }
+    return await this.eventRepository.updateBike(createBikeDTO, user, id);
   }
 }

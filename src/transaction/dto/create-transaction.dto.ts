@@ -30,10 +30,4 @@ export class CreateTransactionDTO {
   })
   @IsString()
   id_offer: string;
-
-  @ApiProperty({
-    example: '7d1c8b38-b817-4fda-b34a-ea809a355b27',
-  })
-  @IsString()
-  id_user_buyer: string;
 }

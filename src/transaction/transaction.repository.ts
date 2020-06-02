@@ -68,7 +68,7 @@ export class TransactionRepository extends Repository<Transaction> {
 
       findTransaction = await query.getOne();
     } catch (error) {
-      throw new NotFoundException('not found ');
+      throw new NotFoundException('not found transaction ');
       //console.log(error);
     }
 
@@ -103,31 +103,36 @@ export class TransactionRepository extends Repository<Transaction> {
     return result;
   }
 
-  async updateOrder(
-    createOrderDto: CreateTransactionDTO,
+  async updateTransaction(
+    createTransactionDto: CreateTransactionDTO,
     user,
     id,
   ): Promise<Transaction> {
-    const findOrder = await this.findOne({ id_transaction: id });
+    const { state } = createTransactionDto;
 
-    if (!findOrder) {
-      throw new NotFoundException('Order not found');
+    const findTransaction = await this.findOne({ id_transaction: id });
+
+    if (!findTransaction) {
+      throw new NotFoundException('Transaction not found');
     }
 
-    const findUser = await this.findOne({
-      id_transaction: id,
-      user: user.id_userr,
-    });
+    // const findUser = await this.findOne({
+    //   id_transaction: id,
+    //   user: user.id_user,
+    // });
 
-    if (!findUser) {
-      throw new UnauthorizedException(
-        'You are not allowed to update this transaction',
-      );
-    }
+    // if (!findUser) {
+    //   throw new UnauthorizedException(
+    //     'You are not allowed to update this transaction',
+    //   );
+    // }
+    // console.log(user);
 
     await this.createQueryBuilder()
       .update(Transaction)
-      .set({})
+      .set({
+        state: state,
+      })
       .where({ id_transaction: id })
       .execute();
 
