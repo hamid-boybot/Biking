@@ -18,7 +18,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Letsgo API')
-    .setDescription('The API of the app')
+    .setDescription('The API of the marketplace bourkabi')
     .setVersion('0.1')
     .addTag('letsgo')
     .addBearerAuth({ type: 'apiKey', in: 'header', name: 'Authorization' })

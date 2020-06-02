@@ -33,6 +33,12 @@ export enum BikeType {
   pascher = 'pascher',
 }
 
+export enum BikeState {
+  bon = 'bon',
+  neuf = 'neuf',
+  occase = 'occase',
+}
+
 export class CreateBikeDTO {
   @ApiProperty({ example: '3oud ri7' })
   @IsString()
@@ -57,9 +63,15 @@ export class CreateBikeDTO {
 
   @ApiProperty({
     enum: ['rapide', 'efficace', 'pascher'],
-    example: 'apartment',
+    example: 'rapide',
   })
   bike_type: BikeType;
+
+  @ApiProperty({
+    enum: ['bon', 'neuf', 'occase'],
+    example: 'neuf',
+  })
+  bike_state: BikeState;
 
   @ApiProperty({ example: 100000 })
   @Transform(price => parseInt(price))

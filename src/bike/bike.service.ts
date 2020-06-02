@@ -51,6 +51,7 @@ export class BikeService {
       bike_type,
       price,
       age,
+      bike_state,
       // id_address,
     } = createBikeDTO;
     // const listAgencies = [];
@@ -98,12 +99,15 @@ export class BikeService {
 
     bike.user = findUser;
 
+    bike.bike_state = bike_state;
+
     bike.age = age;
 
     // bike.address = address;
 
     try {
       await bike.save();
+      console.log(bike.id_bike);
     } catch (error) {
       console.log(error);
     }
