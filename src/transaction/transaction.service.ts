@@ -52,18 +52,18 @@ export class TransactionService {
     return await this.transactionRepository.getTransaction(id, user);
   }
 
-  async getTransactionOfferUser() {
-    const offer = await this.offerRepository.findOne();
-    if (!offer) {
-      throw new NotFoundException("Nous n'avons pas trouvé cette offre");
-    }
+  // async getTransactionOfferUser() {
+  //   const offer = await this.offerRepository.findOne();
+  //   if (!offer) {
+  //     throw new NotFoundException("Nous n'avons pas trouvé cette offre");
+  //   }
 
-    const offerOwner = offer.userRepository.findOne();
-    if (!offerOwner) {
-      throw new NotFoundException('owner of this offer is not here');
-    }
-    return offerOwner;
-  }
+  //   const offerOwner = offer.userRepository.findOne();
+  //   if (!offerOwner) {
+  //     throw new NotFoundException('owner of this offer is not here');
+  //   }
+  //   return offerOwner;
+  // }
 
   async createTransaction(
     createTransactionDTO: CreateTransactionDTO,
@@ -87,7 +87,7 @@ export class TransactionService {
 
     if (findUser.user_checked === false) {
       throw new UnauthorizedException(
-        'You need to verify your identity first then you could post bikes',
+        'You need to verify your identity first then you could post transactions',
       );
     }
 
@@ -210,22 +210,26 @@ export class TransactionService {
   }
 
   async updateTransaction(
-    createBikeDTO: CreateBikeDTO,
+    createTransactionDTO: CreateTransactionDTO,
     user,
     id,
-  ): Promise<Bike> {
+  ): Promise<Transaction> {
     const offer = await this.offerRepository.findOne();
     if (!offer) {
       throw new NotFoundException("Nous n'avons pas trouvé cette offre");
     }
 
-    const offerOwner = offer.userRepository.findOne();
-    if (!offerOwner) {
-      throw new NotFoundException('owner of this offer is not here');
-    }
+    const offerOwner = offer.user;
+
     if (offerOwner !== user) {
       throw new NotFoundException('owner of this offer is not here');
     }
-    return await this.eventRepository.updateBike(createBikeDTO, user, id);
+    console.log(user);
+    console.log(offer);
+    return await this.transactionRepository.updateTransaction(
+      createTransactionDTO,
+      user,
+      id,
+    );
   }
 }
