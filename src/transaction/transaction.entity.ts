@@ -33,7 +33,7 @@ export class Transaction extends BaseEntity {
   @ManyToOne(() => User, user => user.transactions)
   user: User;
 
-  @ManyToOne(() => Offer, offer => offer.transactions)
+  @ManyToOne(() => Offer, offer => offer.transactions, { eager: true })
   offer: Offer;
 
   // @OneToOne(type => User)

@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { getUser } from '../common/decorators/get-user.decorator';
+import { User } from '../user/user.entity';
 import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import { FilterTransactionDTO } from './dto/filter-transaction.dto';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -65,7 +66,7 @@ export class TransactionController {
   }
 
   @Put('/:id')
-  //@UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @ApiParam({ name: 'id' })
   async updateTransaction(
     @Body() createTransactionDto: CreateTransactionDTO,

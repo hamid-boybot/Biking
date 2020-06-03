@@ -52,10 +52,10 @@ export class Offer extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => User, user => user.offers)
-  user: User;
+  @ManyToOne(() => User, user => user.offers, { eager: true })
+  public user: User;
 
-  @ManyToOne(() => Bike, bike => bike.offers)
+  @ManyToOne(() => Bike, bike => bike.offers, { eager: true })
   bike: Bike;
 
   // @OneToOne(type => User)

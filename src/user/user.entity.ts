@@ -93,13 +93,15 @@ export class User extends BaseEntity {
   @OneToMany(() => Address, address => address.user, { eager: true })
   addresses: Address[];
 
-  @OneToMany(() => Offer, offers => offers.user, { onDelete: 'CASCADE' })
-  offers: Offer;
+  @OneToMany(() => Offer, offers => offers.user, {
+    onDelete: 'CASCADE',
+  })
+  offers: Offer[];
 
   @OneToMany(() => Transaction, transactions => transactions.user, {
     onDelete: 'CASCADE',
   })
-  transactions: Transaction[];
+  public transactions: Transaction[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

@@ -6,7 +6,8 @@ import {
 
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository, EntityRepository } from 'typeorm';
+import { Repository, EntityRepository, getRepository } from 'typeorm';
+import { Equal } from 'typeorm';
 
 import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import { Transaction } from './transaction.entity';
@@ -16,6 +17,8 @@ import { FilterTransactionDTO } from './dto/filter-transaction.dto';
 import { OfferRepository } from '../offer/offer.repository';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '../user/user.repository';
+import { User } from '../user/user.entity';
+import { Offer } from '../offer/offer.entity';
 
 @Injectable()
 export class TransactionService {
@@ -67,7 +70,7 @@ export class TransactionService {
 
   async createTransaction(
     createTransactionDTO: CreateTransactionDTO,
-    user,
+    user: User,
   ): Promise<Transaction> {
     /*   const findUser = await this.userRepository.findOne({
       id_user: user.id_user,
@@ -214,18 +217,81 @@ export class TransactionService {
     user,
     id,
   ): Promise<Transaction> {
-    const offer = await this.offerRepository.findOne();
-    if (!offer) {
-      throw new NotFoundException("Nous n'avons pas trouvé cette offre");
-    }
+    // const loadedPosts = await connection.getRepository(Post).find({
+    //     title: Equal("About #2")
+    // });
+    //     ****
+    const transaction = await this.transactionRepository.findOne({
+      id_transaction: id,
+    });
 
-    const offerOwner = offer.user;
+    console.log('la transaction **************');
+    console.log(transaction);
 
-    if (offerOwner !== user) {
-      throw new NotFoundException('owner of this offer is not here');
-    }
-    console.log(user);
+    // const offer1 = await getRepository(Transaction)
+    //   .createQueryBuilder('transaction')
+    //   .select('offer')
+    //   .where('transaction.id_transaction = :id', { id_transaction: id })
+    //   .getRawOne();
+    // // const offer2 = await this.transactionRepository.findOne({
+    // //   transactions : transaction,
+    // // });
+    // console.log("l'offre est ..... " + offer1);
+    // const owner = await this.userRepository.findOne({
+    //   relations: ['offers'],
+    //   where: { offer: offer1 },
+    // });
+    // console.log('the owner .....' + owner);
+    // const userrr = await this.userRepository.findOne({
+    //   relations: ['transactions'],
+    //   where: { id_transaction: id },
+    // });
+    // console.log('the moul transaction is' + userrr);4
+
+    let user1 = await this.userRepository.findOne({
+      id_user: user.id_user,
+    });
+    console.log('the user is');
+    console.log(user1);
+
+    console.log('the offer is ');
+    let offer = transaction.offer;
     console.log(offer);
+
+    let offerOwner = offer.user;
+    let offerOwnerId = offerOwner.id_user;
+    console.log('the owner is');
+    console.log(offerOwnerId);
+    console.log(offerOwner);
+
+    // const offer1 = await Offer.findOne({
+    //   where: { transactions: { id_transaction: transaction.id_transaction } },
+    // });
+    // if (!offer1) {
+    //   throw new NotFoundException("Nous n'avons pas trouvé cette offre");
+    // }
+    // const owner = await User.findOne({
+    //   where: { offer: { id_offer: offer1.id_offer } },
+    // });
+    // //const offerOwner = offer.userRepository.find({ select: 'id_user' });
+    //* **************************
+    // const foundUser = await User.findOne({
+    //   where: { transactions: { id_transaction: transaction.id_transaction } },
+    // });
+
+    // if (foundUser.user_checked === false) {
+    //   throw new UnauthorizedException(
+    //     'You need to verify your identity first then you could post transactions',
+    //   );
+    // }
+    // console.log('offer is' + offer1);
+    // console.log('the owner is :' + owner[0]);
+    // console.log('the user is :' + foundUser[0]);
+
+    // if (owner !== user) {
+    //   throw new NotFoundException('you are not the owner');
+    // }
+
     return await this.transactionRepository.updateTransaction(
       createTransactionDTO,
       user,
