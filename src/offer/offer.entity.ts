@@ -20,7 +20,6 @@ export enum OfferType {
   weekly = 'weekly',
   week_end = 'week_end',
   monthly = 'monthly',
-  perso = 'perso',
 }
 
 @Entity()
@@ -31,29 +30,49 @@ export class Offer extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
-
-  @Column()
-  address: string;
-
-  @Column({ nullable: true })
-  rating: number;
-
   @Column({ type: 'enum', enum: OfferType })
   offer_type: string;
 
   @Column()
-  hour_plage: string;
+  offer_price: number;
 
   @Column()
-  price_per_day: number;
+  exchange_availability_start_hour: number;
+
+  @Column()
+  exchange_availability_start_minute: number;
+
+  @Column()
+  exchange_availability_end_hour: number;
+
+  @Column()
+  exchange_availability_end_minute: number;
+
+  @Column({ type: 'numeric', array: true, default: '{1,1,1,1,1,1,1}' })
+  offer_availability_weeks: number[];
+
+  @Column({
+    type: 'numeric',
+    array: true,
+    default: '{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}',
+  })
+  offer_availability_days: number[];
+
+  @Column({
+    type: 'numeric',
+    array: true,
+    default: '{1,1,1,1,1,1,1,1,1,1,1,1}',
+  })
+  offer_availability_months;
+
+  @Column('number', { default: 2020 })
+  offer_availability_year: number;
 
   @CreateDateColumn()
   created_at: Date;
 
   @ManyToOne(() => User, user => user.offers, { eager: true })
-  public user: User;
+  user: User;
 
   @ManyToOne(() => Bike, bike => bike.offers, { eager: true })
   bike: Bike;
