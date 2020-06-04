@@ -7,15 +7,18 @@ import { AuthModule } from './auth/auth.module';
 import { BikeModule } from './bike/bike.module';
 import { OfferModule } from './offer/offer.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { AddressModule } from './address/address.module';
 //import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
+
     AuthModule,
     BikeModule,
     OfferModule,
     TransactionModule,
+    AddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,9 +6,11 @@ import {
   ManyToOne,
   CreateDateColumn,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Offer } from '../offer/offer.entity';
+import { Bike } from '../bike/bike.entity';
 @Entity()
 export class Address extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -40,6 +42,9 @@ export class Address extends BaseEntity {
 
   @OneToOne(() => Offer, offer => offer.address)
   offer: Offer;
+
+  @OneToMany(() => Bike, bikes => bikes.address)
+  bikes: Bike[];
 
   @ManyToOne(type => User, user => user.addresses)
   user: User;

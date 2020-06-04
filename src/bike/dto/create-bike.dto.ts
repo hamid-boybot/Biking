@@ -28,15 +28,24 @@ const address = {
 //   },
 // ];
 export enum BikeType {
-  rapide = 'rapide',
-  efficace = 'efficace',
-  pascher = 'pascher',
+  vtc = 'vélo tout chemin',
+  vtt = 'vélo tout terrain',
+  city = 'vélo de ville',
+  road = 'vélo de route',
+  electric = 'vélo à assistance électrique',
+  vtt_electric = 'VTT à assistance electrique',
 }
-
 export enum BikeState {
   bon = 'bon',
+  moyen = 'moyen',
   neuf = 'neuf',
-  occase = 'occase',
+}
+
+export enum BikeSize {
+  adulteM = 'Adulte M',
+  adulteL = 'Adulte L',
+  adulteXL = 'Adulte XL',
+  child = 'Enfant',
 }
 
 export class CreateBikeDTO {
@@ -62,45 +71,53 @@ export class CreateBikeDTO {
   description: string;
 
   @ApiProperty({
-    enum: ['rapide', 'efficace', 'pascher'],
-    example: 'rapide',
+    enum: [
+      'vélo tout chemin',
+      'vélo tout terrain',
+      'vélo de ville',
+      'vélo de route',
+      'vélo à assistance électrique',
+      'VTT à assistance electrique',
+    ],
+    example: 'vélo tout chemin',
   })
   bike_type: BikeType;
 
   @ApiProperty({
-    enum: ['bon', 'neuf', 'occase'],
-    example: 'neuf',
+    enum: ['bon', 'moyen', 'neuf'],
+    example: 'moyen',
   })
   bike_state: BikeState;
 
-  @ApiProperty({ example: 100000 })
-  @Transform(price => parseInt(price))
-  @IsNumber()
-  @Min(0)
-  price: number;
+  @ApiProperty({
+    enum: ['Adulte M', 'Adulte L', 'Adulte XL', 'Enfant'],
+    example: 'Adulte M',
+  })
+  bike_size: BikeSize;
 
   // @ApiProperty({ example: 100 })
   // @Transform(area => parseInt(area))
   // @IsNumber()
   // @Min(0)
   // area: number;
+  @ApiProperty({ example: 'id_address' })
+  @IsString()
+  id_address: string;
 
-  @ApiProperty({ example: 10 })
-  @Transform(age => parseInt(age))
+  @ApiProperty({ example: 3 })
   @IsNumber()
-  @Min(0)
-  age: number;
+  rating: number;
 
-  @ApiProperty({ example: address })
-  address: {
-    name: string;
-    street: string;
-    city: string;
-    state: string;
-    zip_code: number;
-    lat: number;
-    lng: number;
-  };
+  // @ApiProperty({ example: address })
+  // address: {
+  //   name: string;
+  //   street: string;
+  //   city: string;
+  //   state: string;
+  //   zip_code: number;
+  //   lat: number;
+  //   lng: number;
+  // };
 
   // @ApiProperty({
   //   example: 'id_address',

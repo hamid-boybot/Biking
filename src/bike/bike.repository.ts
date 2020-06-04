@@ -1,4 +1,5 @@
-import { Repository, EntityRepository } from 'typeorm';
+import { Repository, EntityRepository, getRepository } from 'typeorm';
+import { Address } from '../address/address.entity';
 import { Bike } from './bike.entity';
 import { CreateBikeDTO } from './dto/create-bike.dto';
 import { FilterBikeDTO, SortType } from './dto/filter-bike.dto';
@@ -7,7 +8,7 @@ import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 @EntityRepository(Bike)
 export class BikeRepository extends Repository<Bike> {
   async findBike(filterBikeDTO: FilterBikeDTO, user) {
-    let { search, bike_type, take, skip, sort, price, city } = filterBikeDTO;
+    let { search, bike_type, take, skip, sort, city } = filterBikeDTO;
     take = take || 10;
     skip = skip || 0;
 
@@ -19,9 +20,9 @@ export class BikeRepository extends Repository<Bike> {
       });
     }
 
-    if (price) {
-      query.andWhere('bike.price <= :price', {
-        price,
+    if (city) {
+      query.andWhere('bike.address.city ILIKE :search', {
+        city,
       });
     }
 
@@ -33,10 +34,6 @@ export class BikeRepository extends Repository<Bike> {
         'bike.name ILIKE :search OR bike.description ILIKE :search',
         { search: `%${search}%` },
       );
-    }
-
-    if (sort === SortType.price) {
-      query.orderBy({ 'bike.price': 'ASC' });
     }
 
     // if (sort === SortType.city) {
@@ -100,7 +97,13 @@ export class BikeRepository extends Repository<Bike> {
   }
 
   async updateBike(createBikeDto: CreateBikeDTO, user, id): Promise<Bike> {
-    const { name, description, pictures, bike_type, price } = createBikeDto;
+    const {
+      name,
+      description,
+      pictures,
+      bike_type,
+      id_address,
+    } = createBikeDto;
 
     const findBike = await this.findOne({ id_bike: id });
 
@@ -120,6 +123,13 @@ export class BikeRepository extends Repository<Bike> {
       );
     }
 
+    const address = await getRepository(Address).findOne({
+      id_address: id_address,
+    });
+    if (!address) {
+      throw new NotFoundException("the address doesn't exist");
+    }
+
     await this.createQueryBuilder()
       .update(Bike)
       .set({
@@ -127,7 +137,7 @@ export class BikeRepository extends Repository<Bike> {
         description: description,
         pictures: pictures,
         bike_type: bike_type,
-        price: price,
+        address: address,
         user: user,
       })
       .where({ id_bike: id })

@@ -10,19 +10,26 @@ import {
 import { Transform } from 'class-transformer';
 
 export enum BikeType {
-  rapide = 'rapide',
-  efficace = 'efficace',
-  pascher = 'pascher',
+  vtc = 'vélo tout chemin',
+  vtt = 'vélo tout terrain',
+  city = 'vélo de ville',
+  road = 'vélo de route',
+  electric = 'vélo à assistance électrique',
+  vtt_electric = 'VTT à assistance electrique',
 }
-
 export enum BikeState {
   bon = 'bon',
+  moyen = 'moyen',
   neuf = 'neuf',
-  occase = 'occase',
 }
 
+export enum BikeSize {
+  adulteM = 'Adulte M',
+  adulteL = 'Adulte L',
+  adulteXL = 'Adulte XL',
+  child = 'Enfant',
+}
 export enum SortType {
-  price = 'price',
   state = 'state',
   city = 'city',
 }
@@ -34,16 +41,22 @@ export class FilterBikeDTO {
   search: string;
 
   @ApiPropertyOptional({
-    example: 'rapide',
+    example: 'vtt',
     enum: Object.keys(BikeType),
   })
-  propertyt_type: BikeType;
+  bike_type: BikeType;
 
   @ApiPropertyOptional({
     example: 'bon',
     enum: Object.keys(BikeState),
   })
   bike_state: BikeState;
+
+  @ApiPropertyOptional({
+    example: 'adulteM',
+    enum: Object.keys(BikeSize),
+  })
+  bike_size: BikeSize;
 
   @ApiPropertyOptional({ example: 10 })
   @Transform(take => parseInt(take))
@@ -57,18 +70,26 @@ export class FilterBikeDTO {
   @IsOptional()
   skip: number;
 
-  @ApiPropertyOptional({ example: 100000 })
-  @Transform(price => parseInt(price))
-  @IsNumber()
-  @IsOptional()
-  price: number;
+  // @ApiPropertyOptional({
+  //   enum: ['vtc', 'vtt', 'city'],
+  //   example: 'vtc',
+  // })
+  // @IsOptional()
+  // bike_type: BikeType;
 
-  @ApiPropertyOptional({
-    enum: ['rapide', 'efficace', 'pascher'],
-    example: 'pascher',
-  })
-  @IsOptional()
-  bike_type: BikeType;
+  // @ApiPropertyOptional({
+  //   enum: ['bon', 'moyen', 'neuf'],
+  //   example: 'moyen',
+  // })
+  // @IsOptional()
+  // bike_state: BikeState;
+
+  // @ApiPropertyOptional({
+  //   enum: ['Adulte M', 'Adulte L', 'Adulte XL', 'Enfant'],
+  //   example: 'Adulte M',
+  // })
+  // @IsOptional()
+  // bike_size: BikeSize;
 
   @ApiPropertyOptional({ example: '20eme arrondissement Dto' })
   @IsString()

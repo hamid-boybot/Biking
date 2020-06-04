@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBikeDTO } from './dto/create-bike.dto';
 import { Bike } from './bike.entity';
 import { FilterBikeDTO } from './dto/filter-bike.dto';
-//import { AddressRepository } from '../address/address.repository';
+import { AddressRepository } from '../address/address.repository';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '../user/user.repository';
 
@@ -22,6 +22,8 @@ export class BikeService {
     // private readonly addressRepository: AddressRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
+    @InjectRepository(AddressRepository)
+    private readonly addressRepository: AddressRepository,
   ) {}
 
   async findBike(filterBikeDTO: FilterBikeDTO, user) {
@@ -49,9 +51,10 @@ export class BikeService {
       description,
       pictures,
       bike_type,
-      price,
-      age,
+      bike_size,
       bike_state,
+      id_address,
+      rating,
       // id_address,
     } = createBikeDTO;
     // const listAgencies = [];
@@ -87,6 +90,13 @@ export class BikeService {
     //   throw new NotFoundException("Nous n'avons pas trouvé d'adresse");
     // }
 
+    const address = await this.addressRepository.findOne({
+      id_address: id_address,
+    });
+    if (!address) {
+      throw new NotFoundException("the address doesn't exist");
+    }
+
     bike.name = name;
 
     bike.description = description;
@@ -95,15 +105,15 @@ export class BikeService {
 
     bike.bike_type = bike_type;
 
-    bike.price = price;
-
     bike.user = findUser;
 
     bike.bike_state = bike_state;
 
-    bike.age = age;
+    bike.bike_size = bike_size;
 
-    // bike.address = address;
+    bike.address = address;
+
+    bike.rating = rating;
 
     try {
       await bike.save();
