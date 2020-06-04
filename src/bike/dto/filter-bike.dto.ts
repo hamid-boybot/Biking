@@ -32,6 +32,8 @@ export enum BikeSize {
 export enum SortType {
   state = 'state',
   city = 'city',
+  km = 'km',
+  size = 'size',
 }
 
 export class FilterBikeDTO {
@@ -97,7 +99,7 @@ export class FilterBikeDTO {
   city: string;
 
   @ApiPropertyOptional({
-    example: 'price',
+    example: 'state',
     enum: Object.keys(SortType),
   })
   @IsOptional()

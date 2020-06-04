@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Offer } from '../offer/offer.entity';
@@ -55,8 +56,8 @@ export class Bike extends BaseEntity {
 
   @ManyToOne(() => User, user => user.bikes)
   user: User;
-  @ManyToOne(() => Offer, offers => offers.bike)
-  offers: User;
+  @OneToMany(() => Offer, offers => offers.bike)
+  offers: Offer[];
   @ManyToOne(() => Address, address => address.bikes)
   address: Address;
 }
