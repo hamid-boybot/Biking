@@ -279,18 +279,18 @@ export class TransactionService {
     //   where: { transactions: { id_transaction: transaction.id_transaction } },
     // });
 
-    // if (foundUser.user_checked === false) {
-    //   throw new UnauthorizedException(
-    //     'You need to verify your identity first then you could post transactions',
-    //   );
-    // }
+    if (user1.user_checked === false) {
+      throw new UnauthorizedException(
+        'You need to verify your identity first then you could post transactions',
+      );
+    }
     // console.log('offer is' + offer1);
     // console.log('the owner is :' + owner[0]);
     // console.log('the user is :' + foundUser[0]);
 
-    // if (owner !== user) {
-    //   throw new NotFoundException('you are not the owner');
-    // }
+    if (offerOwner.id_user !== user1.id_user) {
+      throw new NotFoundException('you are not the owner');
+    }
 
     return await this.transactionRepository.updateTransaction(
       createTransactionDTO,
