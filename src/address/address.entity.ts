@@ -33,15 +33,14 @@ export class Address extends BaseEntity {
     srid: 4326,
   })
   location: object;
-  @Column('decimal', { precision: 10, scale: 8 })
+  //'decimal', { precision: 10, scale: 8 }
+  //'decimal', { precision: 11, scale: 8 }
+  @Column()
   lat: number;
-  @Column('decimal', { precision: 11, scale: 8 })
+  @Column()
   lng: number;
   @CreateDateColumn()
   created_at: Date;
-
-  @OneToOne(() => Offer, offer => offer.address)
-  offer: Offer;
 
   @OneToMany(() => Bike, bikes => bikes.address)
   bikes: Bike[];

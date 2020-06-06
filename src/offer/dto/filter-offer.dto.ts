@@ -11,25 +11,46 @@ export enum OfferType {
 }
 
 export class FilterOfferDTO {
+  // @ApiPropertyOptional({
+  //   example: '7 boulevard kennedy 75016',
+  // })
+  // @IsOptional()
+  // @IsString()
+  // address: string;
+
   @ApiPropertyOptional({
-    example: '7 boulevard kennedy 75016',
+    example: 'Aubervillier',
   })
   @IsOptional()
   @IsString()
-  address: string;
-
-  @ApiPropertyOptional({ example: '16ème arrondissement' })
-  @IsOptional()
-  @IsString()
-  search: string;
-
-  @ApiPropertyOptional({ example: '9h-20h' })
-  @IsOptional()
-  @IsString()
-  hour_plage: string;
+  city: string;
 
   @ApiPropertyOptional({
-    enum: ['daily', 'weekly', 'week_end', 'monthly', 'perso'],
+    example: 20,
+  })
+  @IsOptional()
+  @IsNumber()
+  offer_price: number;
+
+  // @ApiPropertyOptional({
+  //   example: 20,
+  // })
+  // @IsOptional()
+  // @IsNumber()
+  // radius: number;
+
+  // @ApiPropertyOptional({ example: 'Aubervillier' })
+  // @IsOptional()
+  // @IsString()
+  // search: string;
+
+  // @ApiPropertyOptional({ example: '9h-20h' })
+  // @IsOptional()
+  // @IsString()
+  // hour_plage: string;
+
+  @ApiPropertyOptional({
+    enum: ['daily', 'weekly', 'week_end', 'monthly'],
     example: 'weekly',
   })
   @IsOptional()

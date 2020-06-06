@@ -65,7 +65,7 @@ export class Offer extends BaseEntity {
   })
   offer_availability_months;
 
-  @Column('number', { default: 2020 })
+  @Column({ default: 2020 })
   offer_availability_year: number;
 
   @CreateDateColumn()

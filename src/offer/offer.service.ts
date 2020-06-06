@@ -34,11 +34,16 @@ export class OfferService {
     }
     const {
       name,
-      description,
-      address,
       offer_type,
-      hour_plage,
-      price_per_day,
+
+      exchange_availability_start_hour,
+      exchange_availability_start_hour_ampm,
+      exchange_availability_start_minute,
+      exchange_availability_end_hour,
+      exchange_availability_end_hour_ampm,
+      exchange_availability_end_minute,
+
+      offer_price,
       id_bike,
     } = createOfferDTO;
 
@@ -54,15 +59,25 @@ export class OfferService {
 
     offer.name = name;
 
-    offer.description = description;
+    if (exchange_availability_start_hour_ampm === 'AM') {
+      offer.exchange_availability_start_hour = exchange_availability_start_hour;
+    } else {
+      offer.exchange_availability_start_hour =
+        exchange_availability_start_hour + 12;
+    }
+    offer.exchange_availability_start_minute = exchange_availability_start_minute;
+    if (exchange_availability_end_hour_ampm === 'AM') {
+      offer.exchange_availability_end_hour = exchange_availability_end_hour;
+    } else {
+      offer.exchange_availability_end_hour =
+        exchange_availability_end_hour + 12;
+    }
 
-    offer.address = address;
+    offer.exchange_availability_end_minute = exchange_availability_end_minute;
 
     offer.offer_type = offer_type;
 
-    offer.hour_plage = hour_plage;
-
-    offer.price_per_day = price_per_day;
+    offer.offer_price = offer_price;
 
     offer.user = findUser;
 
@@ -101,5 +116,13 @@ export class OfferService {
     console.log(offers);
     if (!offers) throw new NotFoundException("the ooffers n'existent pas");
     return offers;
+  }
+
+  async findOfferByFilter(filterOfferDTO: FilterOfferDTO, user) {
+    return await this.offerRepository.findOffer(filterOfferDTO, user);
+  }
+
+  async findOfferLessThanRadius(address, radius) {
+    return await this.offerRepository.findOfferLessThanRadius(address, radius);
   }
 }

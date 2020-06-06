@@ -1,18 +1,88 @@
-import { Repository, EntityRepository } from 'typeorm';
+import { Repository, EntityRepository, getRepository } from 'typeorm';
 import { Offer } from './offer.entity';
 import { CreateOfferDTO } from './dto/create-offer.dto';
 import { FilterOfferDTO } from './dto/filter-offer.dto';
+import { Address } from '../address/address.entity';
+import { Bike } from '../bike/bike.entity';
 
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Offer)
 export class OfferRepository extends Repository<Offer> {
+  async addressesMatch(startAddress: Address, radius) {
+    const addresses = await getRepository(Address).find();
+
+    let addresses_ids = [];
+    const x = startAddress.lat;
+    const y = startAddress.lng;
+
+    for (let address of addresses) {
+      let x_new = address.lat;
+      let y_new = address.lng;
+
+      let distance = Math.sqrt(Math.pow(x - x_new, 2) + Math.pow(y - y_new, 2));
+      if (distance < radius) {
+        addresses_ids.push(address.id_address);
+      }
+    }
+    return addresses_ids;
+  }
+
+  async getBikes(addresses) {
+    let bikes = [];
+
+    for (let address of addresses) {
+      const bike = await getRepository(Bike).findOne({
+        address: { id_address: address },
+      });
+      bikes.push(bike.id_bike);
+    }
+    return bikes;
+  }
+
+  async findOffersByBikes(bikes) {
+    let offers = [];
+    for (let bike of bikes) {
+      const offers_tmp = await this.find({ bike: { id_bike: bike } });
+      if (offers_tmp) {
+        for (let offer of offers_tmp) {
+          offers.push(offer);
+        }
+      }
+    }
+
+    return offers;
+  }
+
+  async findOfferLessThanRadius(address, radius) {
+    const addresses = this.addressesMatch(address, radius);
+
+    const bikes = this.getBikes(addresses);
+    const offers_n = this.findOffersByBikes(bikes);
+    console.log(offers_n);
+    return offers_n;
+  }
+
+  async findOfferbyMonth(month) {
+    let offers = [];
+    const offersList = await this.find();
+    for (let offer of offersList) {
+      if (offer.offer_availability_months[month - 1] === 1) {
+        offers.push(offer);
+      }
+    }
+
+    return offers;
+  }
+
   async findOffer(filterOfferDTO: FilterOfferDTO, user) {
     let {
-      address,
-      search,
+      city,
+      //search,
+
       offer_type,
-      hour_plage,
+
+      offer_price,
       take,
       skip,
     } = filterOfferDTO;
@@ -21,23 +91,24 @@ export class OfferRepository extends Repository<Offer> {
 
     const query = this.createQueryBuilder('offer');
 
-    if (address) {
-      query.andWhere('offer.address=:address', { offer_type });
+    if (city) {
+      query.andWhere('offer.bike.adress.city=:city', { city });
     }
 
-    if (hour_plage) {
-      query.andWhere('offer.hour_plage=:hour_plage', { hour_plage });
-    }
     if (offer_type) {
       query.andWhere('offer.offer_type=:offer_type', { offer_type });
     }
 
-    if (search) {
-      query.andWhere(
-        'offer.name ILIKE :search OR offer.description ILIKE :search',
-        { search: `%${search}%` },
-      );
+    if (offer_price) {
+      query.andWhere('offer.offer_price <= :offer_price', { offer_price });
     }
+
+    // if (search) {
+    //   query.andWhere(
+    //     'offer.name ILIKE :search OR offer.description ILIKE :search',
+    //     { search: `%${search}%` },
+    //   );
+    // }
 
     const offers: any = await query
       .take(take)
@@ -120,7 +191,7 @@ export class OfferRepository extends Repository<Offer> {
   }
 
   async updateOffer(createOfferDto: CreateOfferDTO, user, id): Promise<Offer> {
-    const { name, description, offer_type, hour_plage } = createOfferDto;
+    const { name, offer_type } = createOfferDto;
 
     const findOffer = await this.findOne({ id_offer: id });
 
@@ -141,9 +212,8 @@ export class OfferRepository extends Repository<Offer> {
       .update(Offer)
       .set({
         name: name,
-        description: description,
+
         offer_type: offer_type,
-        hour_plage: hour_plage,
       })
       .where({ id_offer: id })
       .execute();

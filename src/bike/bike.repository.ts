@@ -36,9 +36,9 @@ export class BikeRepository extends Repository<Bike> {
       );
     }
 
-    // if (sort === SortType.city) {
-    //   query.orderBy({ 'bike.address.city': 'ASC' });
-    // }
+    if (sort === SortType.city) {
+      query.orderBy({ 'bike.address.city': 'ASC' });
+    }
 
     const bikes: any = await query
       .take(take)
