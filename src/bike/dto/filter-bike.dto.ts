@@ -31,7 +31,7 @@ export enum BikeSize {
 }
 export enum SortType {
   state = 'state',
-  city = 'city',
+  // city = 'city',
   km = 'km',
   size = 'size',
 }
@@ -93,10 +93,10 @@ export class FilterBikeDTO {
   // @IsOptional()
   // bike_size: BikeSize;
 
-  @ApiPropertyOptional({ example: '20eme arrondissement Dto' })
-  @IsString()
-  @IsOptional()
-  city: string;
+  // @ApiPropertyOptional({ example: '20eme arrondissement Dto' })
+  // @IsString()
+  // @IsOptional()
+  // city: string;
 
   @ApiPropertyOptional({
     example: 'state',

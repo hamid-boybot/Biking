@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Offer } from '../offer/offer.entity';
-import { Bike } from '../bike/bike.entity';
+
 @Entity()
 export class Address extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -35,16 +35,24 @@ export class Address extends BaseEntity {
   location: object;
   //'decimal', { precision: 10, scale: 8 }
   //'decimal', { precision: 11, scale: 8 }
-  @Column()
+  // @Column()
+  // lat: number;
+  // @Column()
+  // lng: number;
+
+  @Column('decimal', { precision: 10, scale: 8 })
   lat: number;
-  @Column()
+  @Column('decimal', { precision: 11, scale: 8 })
   lng: number;
+
+  
   @CreateDateColumn()
   created_at: Date;
 
-  @OneToMany(() => Bike, bikes => bikes.address)
-  bikes: Bike[];
+  @OneToMany(() => Offer, offers => offers.address)
+  offers: Offer[];
 
   @ManyToOne(type => User, user => user.addresses)
   user: User;
-}
+
+  }

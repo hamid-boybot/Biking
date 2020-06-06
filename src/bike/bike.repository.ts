@@ -8,7 +8,7 @@ import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 @EntityRepository(Bike)
 export class BikeRepository extends Repository<Bike> {
   async findBike(filterBikeDTO: FilterBikeDTO, user) {
-    let { search, bike_type, take, skip, sort, city } = filterBikeDTO;
+    let { search, bike_type, take, skip, sort} = filterBikeDTO;
     take = take || 10;
     skip = skip || 0;
 
@@ -20,11 +20,11 @@ export class BikeRepository extends Repository<Bike> {
       });
     }
 
-    if (city) {
-      query.andWhere('bike.address.city ILIKE :search', {
-        city,
-      });
-    }
+    // if (city) {
+    //   query.andWhere('bike.address.city ILIKE :search', {
+    //     city,
+    //   });
+   // }
 
     // if (city) {
     //   query.andWhere('bike.adress.city ILIKE : city', { city });
@@ -36,9 +36,9 @@ export class BikeRepository extends Repository<Bike> {
       );
     }
 
-    if (sort === SortType.city) {
-      query.orderBy({ 'bike.address.city': 'ASC' });
-    }
+    // if (sort === SortType.city) {
+    //   query.orderBy({ 'bike.address.city': 'ASC' });
+    // }
 
     const bikes: any = await query
       .take(take)
@@ -102,7 +102,7 @@ export class BikeRepository extends Repository<Bike> {
       description,
       pictures,
       bike_type,
-      id_address,
+
     } = createBikeDto;
 
     const findBike = await this.findOne({ id_bike: id });
@@ -123,12 +123,12 @@ export class BikeRepository extends Repository<Bike> {
       );
     }
 
-    const address = await getRepository(Address).findOne({
-      id_address: id_address,
-    });
-    if (!address) {
-      throw new NotFoundException("the address doesn't exist");
-    }
+    // const address = await getRepository(Address).findOne({
+    //   id_address: id_address,
+    // });
+    // if (!address) {
+    //   throw new NotFoundException("the address doesn't exist");
+    // }
 
     await this.createQueryBuilder()
       .update(Bike)
@@ -137,7 +137,7 @@ export class BikeRepository extends Repository<Bike> {
         description: description,
         pictures: pictures,
         bike_type: bike_type,
-        address: address,
+        // address: address,
         user: user,
       })
       .where({ id_bike: id })

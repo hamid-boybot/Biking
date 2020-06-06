@@ -58,6 +58,6 @@ export class Bike extends BaseEntity {
   user: User;
   @OneToMany(() => Offer, offers => offers.bike)
   offers: Offer[];
-  @ManyToOne(() => Address, address => address.bikes)
-  address: Address;
+  // @ManyToOne(() => Address, address => address.bikes)
+  // address: Address;
 }

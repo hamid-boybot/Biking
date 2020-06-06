@@ -9,59 +9,59 @@ import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Offer)
 export class OfferRepository extends Repository<Offer> {
-  async addressesMatch(startAddress: Address, radius) {
-    const addresses = await getRepository(Address).find();
+  // async addressesMatch(startAddress: Address, radius) {
+  //   const addresses = await getRepository(Address).find();
 
-    let addresses_ids = [];
-    const x = startAddress.lat;
-    const y = startAddress.lng;
+  //   let addresses_ids = [];
+  //   const x = startAddress.lat;
+  //   const y = startAddress.lng;
 
-    for (let address of addresses) {
-      let x_new = address.lat;
-      let y_new = address.lng;
+  //   for (let address of addresses) {
+  //     let x_new = address.lat;
+  //     let y_new = address.lng;
 
-      let distance = Math.sqrt(Math.pow(x - x_new, 2) + Math.pow(y - y_new, 2));
-      if (distance < radius) {
-        addresses_ids.push(address.id_address);
-      }
-    }
-    return addresses_ids;
-  }
+  //     let distance = Math.sqrt(Math.pow(x - x_new, 2) + Math.pow(y - y_new, 2));
+  //     if (distance < radius) {
+  //       addresses_ids.push(address.id_address);
+  //     }
+  //   }
+  //   return addresses_ids;
+  // }
 
-  async getBikes(addresses) {
-    let bikes = [];
+  // async getBikes(addresses) {
+  //   let bikes = [];
 
-    for (let address of addresses) {
-      const bike = await getRepository(Bike).findOne({
-        address: { id_address: address },
-      });
-      bikes.push(bike.id_bike);
-    }
-    return bikes;
-  }
+  //   for (let address of addresses) {
+  //     const bike = await getRepository(Bike).findOne({
+  //       address: { id_address: address },
+  //     });
+  //     bikes.push(bike.id_bike);
+  //   }
+  //   return bikes;
+  // }
 
-  async findOffersByBikes(bikes) {
-    let offers = [];
-    for (let bike of bikes) {
-      const offers_tmp = await this.find({ bike: { id_bike: bike } });
-      if (offers_tmp) {
-        for (let offer of offers_tmp) {
-          offers.push(offer);
-        }
-      }
-    }
+  // async findOffersByBikes(bikes) {
+  //   let offers = [];
+  //   for (let bike of bikes) {
+  //     const offers_tmp = await this.find({ bike: { id_bike: bike } });
+  //     if (offers_tmp) {
+  //       for (let offer of offers_tmp) {
+  //         offers.push(offer);
+  //       }
+  //     }
+  //   }
 
-    return offers;
-  }
+  //   return offers;
+  // }
 
-  async findOfferLessThanRadius(address, radius) {
-    const addresses = this.addressesMatch(address, radius);
+  // async findOfferLessThanRadius(address, radius) {
+  //   const addresses = this.addressesMatch(address, radius);
 
-    const bikes = this.getBikes(addresses);
-    const offers_n = this.findOffersByBikes(bikes);
-    console.log(offers_n);
-    return offers_n;
-  }
+  //   const bikes = this.getBikes(addresses);
+  //   const offers_n = this.findOffersByBikes(bikes);
+  //   console.log(offers_n);
+  //   return offers_n;
+  // }
 
   async findOfferbyMonth(month) {
     let offers = [];

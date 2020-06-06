@@ -22,8 +22,7 @@ export class BikeService {
     // private readonly addressRepository: AddressRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-    @InjectRepository(AddressRepository)
-    private readonly addressRepository: AddressRepository,
+
   ) {}
 
   async findBike(filterBikeDTO: FilterBikeDTO, user) {
@@ -53,7 +52,7 @@ export class BikeService {
       bike_type,
       bike_size,
       bike_state,
-      id_address,
+  
       rating,
       // id_address,
     } = createBikeDTO;
@@ -90,12 +89,7 @@ export class BikeService {
     //   throw new NotFoundException("Nous n'avons pas trouvé d'adresse");
     // }
 
-    const address = await this.addressRepository.findOne({
-      id_address: id_address,
-    });
-    if (!address) {
-      throw new NotFoundException("the address doesn't exist");
-    }
+
 
     bike.name = name;
 
@@ -111,7 +105,7 @@ export class BikeService {
 
     bike.bike_size = bike_size;
 
-    bike.address = address;
+
 
     bike.rating = rating;
 
@@ -143,3 +137,11 @@ export class BikeService {
     return await request;
   }
 }
+
+
+// const address = await this.addressRepository.findOne({
+//   id_address: id_address,
+// });
+// if (!address) {
+//   throw new NotFoundException("the address doesn't exist");
+// }

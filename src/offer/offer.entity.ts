@@ -13,6 +13,7 @@ import {
 import { User } from '../user/user.entity';
 import { Bike } from '../bike/bike.entity';
 import { Transaction } from '../transaction/transaction.entity';
+import { Address } from '../address/address.entity' ; 
 //import { Mandat } from '../mandat/mandat.entity';
 
 export enum OfferType {
@@ -83,4 +84,7 @@ export class Offer extends BaseEntity {
 
   @OneToMany(() => Transaction, transactions => transactions.offer)
   transactions: Transaction[];
+
+  @ManyToOne(() => Address, address => address.offers )
+  address : Address ; 
 }

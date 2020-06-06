@@ -12,5 +12,5 @@ export class CreateAddressDTO {
   @ApiProperty({ example: 'France' })
   country: string;
   @ApiProperty({ example: 93300 })
-  zip_code: number;
+  zip_code: number; 
 }

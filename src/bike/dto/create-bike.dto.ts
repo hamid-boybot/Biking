@@ -4,14 +4,14 @@ import { IsString, IsNumber, Min, IsArray } from 'class-validator';
 import { Transform } from 'class-transformer';
 //import { IsString } from 'util';
 
-const address = {
-  name: 'mon adresse',
-  street: '7 allee Henri Matisse',
-  city: 'Aubervilliers',
-  state: 'Saint-Denis',
-  country: 'France',
-  zip_code: 93300,
-};
+// const address = {
+//   name: 'mon adresse',
+//   street: '7 allee Henri Matisse',
+//   city: 'Aubervilliers',
+//   state: 'Saint-Denis',
+//   country: 'France',
+//   zip_code: 93300,
+// };
 
 // const agencies = [
 //   {
@@ -100,9 +100,12 @@ export class CreateBikeDTO {
   // @IsNumber()
   // @Min(0)
   // area: number;
-  @ApiProperty({ example: 'id_address' })
-  @IsString()
-  id_address: string;
+
+
+  
+  // @ApiProperty({ example: 'id_address' })
+  // @IsString()
+  // id_address: string;
 
   @ApiProperty({ example: 3 })
   @IsNumber()

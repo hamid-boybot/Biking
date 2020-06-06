@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsNumber, Min, IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateTransactionDTO {
@@ -8,10 +8,18 @@ export class CreateTransactionDTO {
   name: string;
 
   @ApiProperty({
-    example: 'lundi-vendredi',
+    example: new Date(),
   })
-  @IsString()
-  hour_plage: string;
+
+  start_date: Date ;
+
+  
+  @ApiProperty({
+    example: new Date(),
+  })
+
+ end_date: Date ;
+
 
   @ApiProperty({
     example: 20,
@@ -24,6 +32,22 @@ export class CreateTransactionDTO {
   })
   @IsString()
   state: string;
+
+  @ApiPropertyOptional({
+    example: 'goodz',
+  })
+  @IsString()
+  feedback: string;
+  
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  renter_confirmation : boolean ; 
+
+  
+  @ApiPropertyOptional()
+  @IsBoolean()
+  owner_confirmation : boolean ; 
 
   @ApiProperty({
     example: '7d1c8b38-b817-4fda-b34a-ea809a355b27',

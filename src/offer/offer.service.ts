@@ -10,6 +10,7 @@ import { UserRepository } from '../user/user.repository';
 import { BikeRepository } from '../bike/bike.repository';
 import { Offer } from './offer.entity';
 import { FilterOfferDTO } from './dto/filter-offer.dto';
+import { AddressRepository } from 'src/address/address.repository';
 
 @Injectable()
 export class OfferService {
@@ -20,6 +21,9 @@ export class OfferService {
     private readonly userRepository: UserRepository,
     @InjectRepository(BikeRepository)
     private readonly bikeRepository: BikeRepository,
+    @InjectRepository(AddressRepository)
+    private readonly addressRepository : AddressRepository,
+  
   ) {}
 
   async createOffer(createOfferDTO: CreateOfferDTO, user) {
@@ -45,6 +49,7 @@ export class OfferService {
 
       offer_price,
       id_bike,
+      id_address,
     } = createOfferDTO;
 
     const findBike = await this.bikeRepository.findOne({
@@ -55,6 +60,13 @@ export class OfferService {
       throw new NotFoundException("the Bike n'existe pas");
     }
 
+    const findAddress = await this.addressRepository.findOne({
+      id_address: id_address,
+    });
+
+    if (!findAddress) {
+      throw new NotFoundException("the adress n'existe pas");
+    }
     const offer = this.offerRepository.create();
 
     offer.name = name;
@@ -82,6 +94,8 @@ export class OfferService {
     offer.user = findUser;
 
     offer.bike = findBike;
+
+    offer.address = findAddress;
 
     try {
       await offer.save();
@@ -118,11 +132,11 @@ export class OfferService {
     return offers;
   }
 
-  async findOfferByFilter(filterOfferDTO: FilterOfferDTO, user) {
-    return await this.offerRepository.findOffer(filterOfferDTO, user);
-  }
+  // async findOfferByFilter(filterOfferDTO: FilterOfferDTO, user) {
+  //   return await this.offerRepository.findOffer(filterOfferDTO, user);
+  // }
 
-  async findOfferLessThanRadius(address, radius) {
-    return await this.offerRepository.findOfferLessThanRadius(address, radius);
-  }
+  // async findOfferLessThanRadius(address, radius) {
+  //   return await this.offerRepository.findOfferLessThanRadius(address, radius);
+  // }
 }

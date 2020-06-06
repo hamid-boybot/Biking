@@ -19,6 +19,7 @@ import { UpdateResult } from 'typeorm';
 import { UserRepository } from '../user/user.repository';
 import { User } from '../user/user.entity';
 import { Offer } from '../offer/offer.entity';
+import { start } from 'repl';
 
 @Injectable()
 export class TransactionService {
@@ -97,7 +98,9 @@ export class TransactionService {
     const {
       name,
       state,
-      hour_plage,
+      start_date,
+      end_date,
+      feedback,
       location_amount,
       id_offer,
     } = createTransactionDTO;
@@ -127,9 +130,13 @@ export class TransactionService {
     transaction.name = name;
     transaction.location_amount = location_amount;
     transaction.state = state;
-    transaction.hour_plage = hour_plage;
+    transaction.start_date = start_date ;
+    transaction.end_date = end_date ;
+    transaction.feedback = feedback ; 
     transaction.offer = offer;
     transaction.user = findUser;
+    
+  
 
     // let computed_amount = 0;
     // let savedOrder;

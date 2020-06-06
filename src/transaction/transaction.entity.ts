@@ -18,14 +18,31 @@ export class Transaction extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  hour_plage: string;
+@Column()
+location_amount : number ; 
 
-  @Column()
-  location_amount: number;
+@Column()
+start_date :Date ; 
+
+@Column()
+end_date : Date ; 
+
+
 
   @Column()
   state: string;
+
+  
+  @Column({default : false})
+  renter_confirmation: boolean;
+
+  @Column({default : false})
+  owner_confirmation: boolean;
+
+  @Column() 
+  feedback : string ; 
+
+
 
   @CreateDateColumn()
   created_at: Date;

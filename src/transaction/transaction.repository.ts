@@ -116,6 +116,12 @@ export class TransactionRepository extends Repository<Transaction> {
       throw new NotFoundException('Transaction not found');
     }
 
+    // const owner_id = findTransaction.offer.user.id_user; 
+    // if( user.user_id !== owner_id) {
+    //   throw new NotFoundException ("vous n'etes pas le proprietaire du velo , vous ne pouvez pas modifier son etat")
+    // }
+
+
     // const findUser = await this.findOne({
     //   id_transaction: id,
     //   user: user.id_user,

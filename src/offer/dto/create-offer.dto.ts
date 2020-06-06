@@ -88,4 +88,10 @@ export class CreateOfferDTO {
   })
   @IsString()
   id_bike: string;
+
+  @ApiProperty({
+    example: '7d1c8b38-b817-4fda-b34a-ea809a355b27',
+  })
+  @IsString()
+  id_address: string;
 }
